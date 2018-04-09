@@ -3,3 +3,9 @@ geckodriver.log
 virtualenv
 __pycache__
 *.pyc
+
+./static
+functional_tests/screendumps
+
+# vs code cruft.
+.vscode/
