@@ -4,6 +4,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
 import time
 
+###from Exception import ConnectionAbortedError    ### [hjk:]
+
 MAX_WAIT = 5       # Maiximum time (seconds) to wait for browser to update.
 
 
@@ -14,6 +16,21 @@ class NewVisitorTest(LiveServerTestCase):
 
     def tearDown(self):
         self.browser.quit()
+
+    def quit_browser(self):
+        """
+        Quit the browser and ignore ConnectionAbortedError exceptions.
+        """
+        print('>>>>> Entered into quit_browser()')
+        try:
+            self.browser.quit()
+        except Exception as e:
+            print('>>>>> Caught exception: ' + e)
+        # # # except ConnectionAbortedError:
+        # # #     print('Caught "ConnectionAbortedError" when quiting browser - ignored')
+
+        time.sleep(0.5)    ### Will sleeping fix spuruous exception? It may... [hjk: Apr 11 2018]
+
 
     def wait_for_row_in_list_table(self, row_text):
         start_time = time.time()
@@ -82,9 +99,9 @@ class NewVisitorTest(LiveServerTestCase):
         # Edith starts a new to-do list.
         self.browser.get(self.live_server_url)
         inputbox = self.browser.find_element_by_id('id_new_item')
-        inputbox.send_keys('But peacock feathers')
+        inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: But peacock feathers')
+        self.wait_for_row_in_list_table('1: Buy peacock feathers')
 
         # She notices that het list has a unque URL.
         edith_list_url = self.browser.current_url
@@ -94,19 +111,20 @@ class NewVisitorTest(LiveServerTestCase):
 
         ## We use a new browser session to make sure that no information
         ## of Edith's is somming through from cookies etc.
-        self.browser.quit()
+        ###self.browser.quit()
+        self.quit_browser()
         self.browser = webdriver.Firefox()
 
         # Francis visits the heme page. There are no signs
         # of Edith's list.
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('But peacock feathers', page_text)
+        self.assertNotIn('Buy peacock feathers', page_text)
         self.assertNotIn('make a fly', page_text)
 
         # Francis starts a new list by entering a new item. He
         # is less interesting than Edith...
-        inputbox = self.browser.find_element_by_id('in_new_item')
+        inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy milk')
@@ -118,7 +136,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Again, there is no trace of Edith's list.
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('But peacock feathers', page_text)
+        self.assertNotIn('Buy peacock feathers', page_text)
         self.assertIn('Nuy milk', page_text)
 
 
