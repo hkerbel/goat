@@ -1,13 +1,13 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 import time
 
-MAX_WAIT = 10
+MAX_WAIT = 7
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -28,6 +28,20 @@ class NewVisitorTest(LiveServerTestCase):
                 if time.time() - start_time > MAX_WAIT:
                     raise e
                 time.sleep(0.5)
+
+    def quit_browser(self):
+        """
+        Quit the browser and ignore ConnectionAbortedError exceptions.
+        """
+        print('>>>>> Entered into quit_browser()')
+        try:
+            self.browser.refresh()
+            self.browser.quit()
+        except Exception as e:
+            print('>>>>> Caught exception: ', e)
+
+        ####time.sleep(0.85)    ### Will sleeping fix spuruous exception? It may... [hjk: Apr 11 2018]
+
 
 
     def test_can_start_a_list_for_one_user(self):
@@ -86,7 +100,8 @@ class NewVisitorTest(LiveServerTestCase):
 
         ## We use a new browser session to make sure that no information
         ## of Edith's is coming through from cookies etc
-        self.browser.quit()
+        #####self.browser.quit()
+        self.quit_browser()
         self.browser = webdriver.Firefox()
 
         # Francis visits the home page.  There is no sign of Edith's
