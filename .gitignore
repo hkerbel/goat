@@ -10,3 +10,6 @@ functional_tests/screendumps
 # vs code cruft.
 .vscode/
 /static
+
+### [hjk: TDD testing goat, ch 10.8 - Using a .env File for env vars.  Apr 19 2018]
+.env
