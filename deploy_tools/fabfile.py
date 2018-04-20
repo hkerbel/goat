@@ -6,7 +6,7 @@ REPO_URL = 'https://github.com/hkerbel/goat.git'
 
 def deploy():
     site_folder = f'/var/local/sites/{env.host}'
-    run(f'mkdir -p {site_folder}')
+    run(f'mkdir -p "{site_folder}"')
     with cd(site_folder):
         _get_latest_source()
         _update_virtualenv()
