@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn server for DOMAIN
+
+[Service]
+Restart=on-failure
+User=shart
+WorkingDirectory=/var/local/sites/DOMAIN
+EnvironmentFile=/var/local/sites/DOMAIN/.env
+
+ExecStart=/var/local/sites/DOMAIN/virtualenv/bin/gunicorn superlists.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
