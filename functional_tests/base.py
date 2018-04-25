@@ -52,7 +52,6 @@ class FunctionalTest(StaticLiveServerTestCase):
         """
         Quit the browser and ignore ConnectionAbortedError exceptions.
         """
-        print('>>>>> Entered into quit_browser()')
         try:
             self.browser.refresh()
             self.browser.quit()
@@ -62,5 +61,4 @@ class FunctionalTest(StaticLiveServerTestCase):
         ####time.sleep(0.85)    ### Will sleeping fix spuruous exception? It may... [hjk: Apr 11 2018]
 
     def get_item_input_box(self):
-        print('>>>>> get_item_input_box')
         return self.browser.find_element_by_id('id_text')
