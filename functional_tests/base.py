@@ -19,7 +19,8 @@ class FunctionalTest(StaticLiveServerTestCase):
             print(">>>>> STAGING_SERVER:", '(none)')
 
     def tearDown(self):
-        self.browser.quit()
+        self.quit_browser()
+        ####self.browser.quit()
 
 
     def wait_for_row_in_list_table(self, row_text):
@@ -60,4 +61,6 @@ class FunctionalTest(StaticLiveServerTestCase):
 
         ####time.sleep(0.85)    ### Will sleeping fix spuruous exception? It may... [hjk: Apr 11 2018]
 
-
+    def get_item_input_box(self):
+        print('>>>>> get_item_input_box')
+        return self.browser.find_element_by_id('id_text')
