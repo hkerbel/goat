@@ -160,6 +160,6 @@ LOGGING = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'kerbel.test@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
-print('>>>>> email passwd: ', EMAIL_HOST_PASSWORD)
+print('>>>>> email passwd: ', EMAIL_HOST_PASSWORD[0:2+1])
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
