@@ -12,13 +12,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         session_key = create_pre_authenticated_session(options['email'])
         self.stdout.write('>>>>> s_key: ' + session_key)
-        self.stdout.write('>>>>> email: ' + options['email'])
 
 
 def create_pre_authenticated_session(email):
     user = User.objects.create(email=email)
     session = SessionStore()
     session[SESSION_KEY] = user.pk
+    print('!!!!! user.pk:', user.pk)
     session[BACKEND_SESSION_KEY] = settings.AUTHENTICATION_BACKENDS[0]
     session.save()
     return session.session_key

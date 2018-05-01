@@ -23,8 +23,15 @@ def create_session_on_server(host, email):
     print('>>>>>[s] host:', host)
     with settings(host_string=f'shart@{host}'):
         env_vars = _get_server_env_vars(host)
-        print('>>>>> env_vars')
+        ####print('>>>>> env_vars')
         print(env_vars)
         with shell_env(**env_vars):
             session_key = run(f'{manage_dot_py} create_session {email}')
+            # # # if session_key:
+            # # #     print(f'!!>>> on server, vars: "{vars(session_key)}"')
+            # # #     print(f'!!>>> on server, type: "{type(session_key)}"')
+            # # #     print(f'!!>>> on server, session_key: "{session_key.strip()}"')
+            # # #     print(f'!!>>> on server, length: {len(session_key.strip())}')
+            # # # else:
+            # # #     print('>>>>> on server, session_key: (None)')
             return session_key.strip()

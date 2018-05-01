@@ -5,7 +5,7 @@ from selenium.common.exceptions import WebDriverException
 from .server_tools import reset_database
 import time
 
-MAX_WAIT = 7    # Maximum time (seconds) to wait for browser to respond before considering test a failure.
+MAX_WAIT = 10    # Maximum time (seconds) to wait for browser to respond before considering test a failure.
 
 
 class FunctionalTest(StaticLiveServerTestCase):
@@ -73,7 +73,6 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     @wait
     def wait_to_be_logged_in(self, email):
-        print('>>>>> wtbli email:', email)
         self.browser.find_element_by_link_text('Log out')
         navbar = self.browser.find_element_by_css_selector('.navbar')
         self.assertIn(email, navbar.text)
