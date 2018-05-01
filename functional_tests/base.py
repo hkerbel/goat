@@ -2,6 +2,7 @@ import os
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
+from .server_tools import reset_database
 import time
 
 MAX_WAIT = 7    # Maximum time (seconds) to wait for browser to respond before considering test a failure.
@@ -15,8 +16,11 @@ class FunctionalTest(StaticLiveServerTestCase):
         if self.staging_server:
             print(">>>>> STAGING_SERVER:", self.staging_server)
             self.live_server_url = 'http://' + self.staging_server
+            reset_database(self.staging_server)
         else:
             print(">>>>> STAGING_SERVER:", '(none)')
+
+        
 
     def tearDown(self):
         self.quit_browser()
