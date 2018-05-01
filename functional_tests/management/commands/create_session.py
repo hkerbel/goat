@@ -11,7 +11,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         session_key = create_pre_authenticated_session(options['email'])
-        self.stdout.write(session_key)
+        self.stdout.write('>>>>> s_key: ' + session_key)
+        self.stdout.write('>>>>> email: ' + options['email'])
 
 
 def create_pre_authenticated_session(email):
