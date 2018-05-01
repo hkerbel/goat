@@ -3,13 +3,13 @@ from .base import FunctionalTest
 from .server_tools import create_session_on_server
 from .management.commands.create_session import create_pre_authenticated_session
 
+import time     ### DEBUG
 
 class MyListsTest(FunctionalTest):
 
     def create_pre_authenticated_session(self, email):
         if self.staging_server:
             session_key = create_session_on_server(self.staging_server, email)
-            print('>>>>X server s_key:', "'" + session_key + "'")
         else:
             session_key = create_pre_authenticated_session(email)
 
@@ -37,4 +37,5 @@ class MyListsTest(FunctionalTest):
         # Edith is a logged-in user.
         self.create_pre_authenticated_session(email)
         self.browser.get(self.live_server_url)
+        time.sleep(35)
         self.wait_to_be_logged_in(email)
